@@ -3,8 +3,13 @@ const platform = require('../lib/platform')
 
 describe('Platform', () => {
   it('Should parse mac', () => {
-    const result = platform('hyper-2.1.1-mac.zip')
+    const result = platform('hyper-2.1.1.app.tar.gz')
     expect(result).toBe('darwin')
+  })
+
+  it('Should parse appimage', () => {
+    const result = platform('hyper-2.1.1.AppImage.tar.gz')
+    expect(result).toBe('appimage')
   })
 
   it('Should parse other platforms', () => {

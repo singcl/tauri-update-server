@@ -41,20 +41,9 @@ On the command above, you can define the following environment variables:
 - `REPOSITORY`: The name of the repository to pull releases from
 - `PORT`: The port on which Hazel should run
 
-Once it's deployed, paste the deployment address into your code (please keep in mind that updates should only occur in the production version of the app, not while developing):
-
-```js
-const { app, autoUpdater } = require('electron')
-
-const server = <your-deployment-url>
-const feed = `${server}/update/${process.platform}/${app.getVersion()}`
-
-autoUpdater.setFeedURL(feed)
-```
+Once it's deployed, paste the deployment address into your Tauri config (please keep in mind that updates should only occur in the production version of the app, not while developing).
 
 That's it! :white_check_mark:
-
-From now on, the auto updater will ask your Hazel deployment for updates!
 
 ## Options
 
@@ -85,7 +74,7 @@ If the latest version of the application wasn't yet pulled from [GitHub Releases
 
 ### /download/:platform
 
-Accepts a platform (like "darwin" or "win32") to download the appropriate copy your app for. I generally suggest using either `process.platform` ([more](https://nodejs.org/api/process.html#process_process_platform)) or `os.platform()` ([more](https://nodejs.org/api/os.html#os_os_platform)) to retrieve this string.
+Accepts a platform (like "darwin" or "win32") to download the appropriate copy your app for.
 
 If the cache isn't filled yet or doesn't contain a download link for the specified platform, it will respond like `/`.
 
@@ -95,33 +84,27 @@ Checks if there is an update available by reading from the cache.
 
 If the latest version of the application wasn't yet pulled from [GitHub Releases](https://help.github.com/articles/creating-releases/), it will return the `204` status code. The same happens if the latest release doesn't contain a file for the specified platform.
 
-### /update/win32/:version/RELEASES
-
-This endpoint was specifically crafted for the Windows platform (called "win32" [in Node.js](https://nodejs.org/api/process.html#process_process_platform)).
-
-Since the [Windows version](https://github.com/Squirrel/Squirrel.Windows) of Squirrel (the software that powers auto updates inside [Electron](https://electron.atom.io)) requires access to a file named "RELEASES" when checking for updates, this endpoint will respond with a cached version of the file that contains a download link to a `.nupkg` file (the application update).
-
 ## Programmatic Usage
 
 You can add Hazel to an existing HTTP server, if you want. For example, this will allow you to implement custom analytics on certain paths.
 
 ```js
-const hazel = require('hazel-server')
+const tauri_updater = require('tauri-update-server')
 
 http.createServer((req, res) => {
-  hazel(req, res)
+  tauri_updater(req, res)
 })
 ```
 
 ## Contributing
 
 1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device
-2. Move into the directory of your clone: `cd hazel`
-3. Run the development server: `npm run dev`
+2. Move into the directory of your clone: `cd your-clone`
+3. Run the development server: `yarn dev`
 
 ## Credits
 
-Huge thanks to my ([@leo](https://github.com/leo)'s) friend [Andy](http://twitter.com/andybitz_), who suggested the name "Hazel" (since the auto updater software inside [Electron](https://electron.atom.io) is called "Squirrel") and [Matheus](https://twitter.com/matheusfrndes) for collecting ideas with me.
+Huge thanks to my ([@leo](https://github.com/leo)'s) friend [Andy](http://twitter.com/andybitz_) and [Matheus](https://twitter.com/matheusfrndes) for collecting ideas.
 
 ## Author
 
