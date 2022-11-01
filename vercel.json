@@ -1,7 +1,16 @@
 {
-  "functions": {"lib/server.js": {
-    "memory": 1024,
-    "maxDuration": 10
-  }},
-  "rewrites": [{ "source": "/:path(.*)", "destination": "/lib/server.js" }]
+  "version": 2,
+  "name": "tauri-update-server",
+  "builds": [
+      {
+          "src": "lib/server.js",
+          "use": "@now/node"
+      }
+  ],
+  "routes": [
+      {
+          "src": ".*",
+          "dest": "/lib/server.js"
+      }
+  ]
 }
