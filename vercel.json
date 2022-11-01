@@ -3,5 +3,5 @@
     "memory": 1024,
     "maxDuration": 10
   }},
-  "rewrites": [{ "source": "*", "destination": "/lib/server.js" }]
+  "rewrites": [{ "source": ".+", "destination": "/lib/server.js" }]
 }
